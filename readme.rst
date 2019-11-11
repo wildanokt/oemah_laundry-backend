@@ -1,5 +1,5 @@
 ###################
-Ujung Belakang DSC ub
+Backend Projek Akhir PPK
 ###################
 dibuat dengan codeigniter
 
