@@ -8,5 +8,10 @@ class Pemesanan_model extends CI_Model
 		->join('ppk_pelanggan pel', 'pel.id_pelanggan = pem.id_pelanggan')
 		->join('ppk_petugas pet', 'pet.id_petugas = pem.id_petugas');
 		return $this->db->get()->result_array();
-	}
+  }
+  
+  public function insertPemesananAdmin($arr){
+    $this->db->insert('ppk_pemesanan', $arr);
+    return $this->db->affected_rows() > 0 ? true : false;
+  }
 }
