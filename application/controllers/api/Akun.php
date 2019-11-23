@@ -3,33 +3,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
 use Restserver\Libraries\REST_Controller;
 
-class Pemesanan extends REST_Controller
+class Akun extends REST_Controller
 {
     public function __construct()
     {
       parent::__construct();
-      $this->load->model('Pemesanan_model', 'pemesanan');
+      $this->load->model('Akun_model', 'akun');
       header('Access-Control-Allow-Origin: *');
     }
-    public function index_get()
+    public function index_post()
     {
-      $id = $this->get('id');
-      //yang ini harus diganti pake session(?)
-      $petugas = $this->get('petugas');
-      if($id == null){
-        $pemesanan = $this->pemesanan->getPemesanan(null, $petugas);
-      } else {
-        $pemesanan = $this->pemesanan->getPemesanan($id, $petugas);
-      }
-      if ($pemesanan) {
+      $username = $this->post('username');
+      $password = $this->post('password');
+
+      $akun = $this->akun->getAkun($username, $password);
+      if ($akun) {
         $this->response([
           'status' => true,
-          'data' => $pemesanan,
+          'data' => $akun,
         ], REST_Controller::HTTP_OK);
       } else {
         $this->response([
           'status' => false,
-          'error' => 'Data kosong',
+          'error' => 'Akun tidak terdaftar!',
         ], REST_Controller::HTTP_NOT_FOUND);
       }
     }
@@ -37,17 +33,19 @@ class Pemesanan extends REST_Controller
     {
       $id = $this->put('id');
       $data = [
-        'status' => $this->put('status')
+        'nama' => $this->put('nama'),
+        'username' => $this->put('username'),
+        'password' => $this->put('password'),
       ];
-      if($this->pemesanan->updatePemesanan($data, $id) > 0){
+      if($this->akun->updateAkun($data, $id) > 0){
         $this->response([
           'status' => true,
-          'message' => 'Status berhasil diubah.',
+          'message' => 'Akun berhasil diubah.',
         ], REST_Controller::HTTP_OK);
       } else {
         $this->response([
           'status' => false,
-          'message' => 'Gagal mengubah status!',
+          'message' => 'Gagal mengubah akun!',
         ], REST_Controller::HTTP_BAD_REQUEST);
       }
     }
