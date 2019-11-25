@@ -6,12 +6,12 @@ require APPPATH . '/libraries/REST_Controller.php';
 
 use Restserver\Libraries\REST_Controller;
 
-class Pemesanan extends REST_Controller
+class Petugas extends REST_Controller
 {
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('Pemesanan_model', 'pemesanan');
+    $this->load->model('Petugas_model', 'petugas');
     header('Access-Control-Allow-Origin: *');
   }
 
