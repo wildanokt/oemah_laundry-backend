@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 25 Nov 2019 pada 07.28
+-- Waktu pembuatan: 25 Nov 2019 pada 08.21
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 7.3.0
 
@@ -25,10 +25,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `barang_cucian`
+-- Struktur dari tabel `ppk_barang_cucian`
 --
 
-CREATE TABLE `barang_cucian` (
+CREATE TABLE `ppk_barang_cucian` (
   `id` int(11) NOT NULL,
   `nama` varchar(255) DEFAULT NULL,
   `harga` int(11) DEFAULT NULL,
@@ -36,10 +36,10 @@ CREATE TABLE `barang_cucian` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `barang_cucian`
+-- Dumping data untuk tabel `ppk_barang_cucian`
 --
 
-INSERT INTO `barang_cucian` (`id`, `nama`, `harga`, `lama`) VALUES
+INSERT INTO `ppk_barang_cucian` (`id`, `nama`, `harga`, `lama`) VALUES
 (1, 'Pakaian', 3000, 1),
 (2, 'Selimut', 4000, 3),
 (3, 'Boneka', 8000, 3),
@@ -48,10 +48,10 @@ INSERT INTO `barang_cucian` (`id`, `nama`, `harga`, `lama`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pelanggan`
+-- Struktur dari tabel `ppk_pelanggan`
 --
 
-CREATE TABLE `pelanggan` (
+CREATE TABLE `ppk_pelanggan` (
   `id_pelanggan` int(11) NOT NULL,
   `nama` varchar(255) NOT NULL DEFAULT '',
   `username` varchar(255) NOT NULL DEFAULT '',
@@ -61,21 +61,20 @@ CREATE TABLE `pelanggan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `pelanggan`
+-- Dumping data untuk tabel `ppk_pelanggan`
 --
 
-INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `username`, `password`, `telepon`, `alamat`) VALUES
+INSERT INTO `ppk_pelanggan` (`id_pelanggan`, `nama`, `username`, `password`, `telepon`, `alamat`) VALUES
 (1, 'fakhri', 'fakhri', '123', '0823267156', 'jl. kenangan no 4'),
-(2, 'Hama', 'Hama', 'qweasd123', '', ''),
-(3, '', 'infaag', 'infa3785IN', '', '');
+(2, 'Hama', 'Hama', 'qweasd123', '', '');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pemesanan`
+-- Struktur dari tabel `ppk_pemesanan`
 --
 
-CREATE TABLE `pemesanan` (
+CREATE TABLE `ppk_pemesanan` (
   `id_pemesanan` int(11) NOT NULL,
   `id_pelanggan` int(11) NOT NULL DEFAULT '0',
   `id_petugas` int(11) NOT NULL DEFAULT '0',
@@ -86,20 +85,20 @@ CREATE TABLE `pemesanan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `pemesanan`
+-- Dumping data untuk tabel `ppk_pemesanan`
 --
 
-INSERT INTO `pemesanan` (`id_pemesanan`, `id_pelanggan`, `id_petugas`, `total_harga`, `tanggal_masuk`, `tanggal_keluar`, `status`) VALUES
+INSERT INTO `ppk_pemesanan` (`id_pemesanan`, `id_pelanggan`, `id_petugas`, `total_harga`, `tanggal_masuk`, `tanggal_keluar`, `status`) VALUES
 (5, 2, 0, 8000, '2019-09-27', '2019-10-02', 'selesai'),
 (9, 1, 1, 14000, '2019-10-03', '2019-10-07', '');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `petugas`
+-- Struktur dari tabel `ppk_petugas`
 --
 
-CREATE TABLE `petugas` (
+CREATE TABLE `ppk_petugas` (
   `id_petugas` int(11) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
@@ -108,20 +107,20 @@ CREATE TABLE `petugas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `petugas`
+-- Dumping data untuk tabel `ppk_petugas`
 --
 
-INSERT INTO `petugas` (`id_petugas`, `nama`, `username`, `password`, `tipe`) VALUES
+INSERT INTO `ppk_petugas` (`id_petugas`, `nama`, `username`, `password`, `tipe`) VALUES
 (0, 'ilham', 'ilham', 'andri', 'Petugas Cuci'),
 (1, 'baziyad', 'baziyad', 'hummam', 'Petugas Admin');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `rincian_pemesanan`
+-- Struktur dari tabel `ppk_rincian_pemesanan`
 --
 
-CREATE TABLE `rincian_pemesanan` (
+CREATE TABLE `ppk_rincian_pemesanan` (
   `id_rincian` int(11) NOT NULL,
   `id_pemesanan` int(11) DEFAULT NULL,
   `id_barang_cucian` int(11) DEFAULT NULL,
@@ -134,35 +133,35 @@ CREATE TABLE `rincian_pemesanan` (
 --
 
 --
--- Indeks untuk tabel `barang_cucian`
+-- Indeks untuk tabel `ppk_barang_cucian`
 --
-ALTER TABLE `barang_cucian`
+ALTER TABLE `ppk_barang_cucian`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `pelanggan`
+-- Indeks untuk tabel `ppk_pelanggan`
 --
-ALTER TABLE `pelanggan`
+ALTER TABLE `ppk_pelanggan`
   ADD PRIMARY KEY (`id_pelanggan`);
 
 --
--- Indeks untuk tabel `pemesanan`
+-- Indeks untuk tabel `ppk_pemesanan`
 --
-ALTER TABLE `pemesanan`
+ALTER TABLE `ppk_pemesanan`
   ADD PRIMARY KEY (`id_pemesanan`),
   ADD KEY `id_pelanggan` (`id_pelanggan`),
   ADD KEY `id_petugas` (`id_petugas`) USING BTREE;
 
 --
--- Indeks untuk tabel `petugas`
+-- Indeks untuk tabel `ppk_petugas`
 --
-ALTER TABLE `petugas`
+ALTER TABLE `ppk_petugas`
   ADD PRIMARY KEY (`id_petugas`);
 
 --
--- Indeks untuk tabel `rincian_pemesanan`
+-- Indeks untuk tabel `ppk_rincian_pemesanan`
 --
-ALTER TABLE `rincian_pemesanan`
+ALTER TABLE `ppk_rincian_pemesanan`
   ADD PRIMARY KEY (`id_rincian`),
   ADD KEY `id_pemesanan` (`id_pemesanan`),
   ADD KEY `id_barang_cucian` (`id_barang_cucian`);
@@ -172,27 +171,27 @@ ALTER TABLE `rincian_pemesanan`
 --
 
 --
--- AUTO_INCREMENT untuk tabel `pelanggan`
+-- AUTO_INCREMENT untuk tabel `ppk_pelanggan`
 --
-ALTER TABLE `pelanggan`
+ALTER TABLE `ppk_pelanggan`
   MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `pemesanan`
+-- AUTO_INCREMENT untuk tabel `ppk_pemesanan`
 --
-ALTER TABLE `pemesanan`
+ALTER TABLE `ppk_pemesanan`
   MODIFY `id_pemesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT untuk tabel `petugas`
+-- AUTO_INCREMENT untuk tabel `ppk_petugas`
 --
-ALTER TABLE `petugas`
+ALTER TABLE `ppk_petugas`
   MODIFY `id_petugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `rincian_pemesanan`
+-- AUTO_INCREMENT untuk tabel `ppk_rincian_pemesanan`
 --
-ALTER TABLE `rincian_pemesanan`
+ALTER TABLE `ppk_rincian_pemesanan`
   MODIFY `id_rincian` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -200,18 +199,18 @@ ALTER TABLE `rincian_pemesanan`
 --
 
 --
--- Ketidakleluasaan untuk tabel `pemesanan`
+-- Ketidakleluasaan untuk tabel `ppk_pemesanan`
 --
-ALTER TABLE `pemesanan`
-  ADD CONSTRAINT `pemesanan_ibfk_1` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`),
-  ADD CONSTRAINT `pemesanan_ibfk_2` FOREIGN KEY (`id_petugas`) REFERENCES `petugas` (`id_petugas`);
+ALTER TABLE `ppk_pemesanan`
+  ADD CONSTRAINT `ppk_pemesanan_ibfk_1` FOREIGN KEY (`id_pelanggan`) REFERENCES `ppk_pelanggan` (`id_pelanggan`),
+  ADD CONSTRAINT `ppk_pemesanan_ibfk_2` FOREIGN KEY (`id_petugas`) REFERENCES `ppk_petugas` (`id_petugas`);
 
 --
--- Ketidakleluasaan untuk tabel `rincian_pemesanan`
+-- Ketidakleluasaan untuk tabel `ppk_rincian_pemesanan`
 --
-ALTER TABLE `rincian_pemesanan`
-  ADD CONSTRAINT `rincian_pemesanan_ibfk_1` FOREIGN KEY (`id_pemesanan`) REFERENCES `pemesanan` (`id_pemesanan`),
-  ADD CONSTRAINT `rincian_pemesanan_ibfk_2` FOREIGN KEY (`id_barang_cucian`) REFERENCES `barang_cucian` (`id`);
+ALTER TABLE `ppk_rincian_pemesanan`
+  ADD CONSTRAINT `ppk_rincian_pemesanan_ibfk_1` FOREIGN KEY (`id_pemesanan`) REFERENCES `ppk_pemesanan` (`id_pemesanan`),
+  ADD CONSTRAINT `ppk_rincian_pemesanan_ibfk_2` FOREIGN KEY (`id_barang_cucian`) REFERENCES `ppk_barang_cucian` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
