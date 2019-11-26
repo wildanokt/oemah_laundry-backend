@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2019 at 02:26 PM
+-- Generation Time: Nov 26, 2019 at 04:14 PM
 -- Server version: 10.3.15-MariaDB
 -- PHP Version: 7.3.6
 
@@ -89,9 +89,9 @@ CREATE TABLE `ppk_pemesanan` (
 --
 
 INSERT INTO `ppk_pemesanan` (`id_pemesanan`, `id_pelanggan`, `id_petugas`, `total_harga`, `tanggal_masuk`, `tanggal_keluar`, `status`) VALUES
-(5, 2, 0, 8000, '2019-09-27', '2019-10-02', 'Belum Diproses'),
+(5, 2, 1, 8000, '2019-09-27', '2019-10-02', 'Belum Diproses'),
 (9, 1, 1, 14000, '2019-10-03', '2019-10-07', 'Belum Diproses'),
-(10, 1, NULL, 50000, '0000-00-00', '1000-01-01', 'Belum Diproses');
+(10, 1, 0, 50000, '0000-00-00', '1000-01-01', 'Belum Diproses');
 
 -- --------------------------------------------------------
 
@@ -112,8 +112,9 @@ CREATE TABLE `ppk_petugas` (
 --
 
 INSERT INTO `ppk_petugas` (`id_petugas`, `nama`, `username`, `password`, `tipe`) VALUES
-(0, 'ilham', 'ilham', 'andri', 'Petugas Cuci'),
-(1, 'baziyad', 'baziyad', 'hummam', 'Petugas Admin');
+(0, '', '', '', ''),
+(1, 'baziyad', 'baziyad', 'hummam', 'Petugas Admin'),
+(2, 'ilham', 'ilham', 'andri', 'Petugas Cuci');
 
 -- --------------------------------------------------------
 
@@ -172,6 +173,12 @@ ALTER TABLE `ppk_rincian_pemesanan`
 --
 
 --
+-- AUTO_INCREMENT for table `ppk_barang_cucian`
+--
+ALTER TABLE `ppk_barang_cucian`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `ppk_pelanggan`
 --
 ALTER TABLE `ppk_pelanggan`
@@ -187,7 +194,7 @@ ALTER TABLE `ppk_pemesanan`
 -- AUTO_INCREMENT for table `ppk_petugas`
 --
 ALTER TABLE `ppk_petugas`
-  MODIFY `id_petugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_petugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ppk_rincian_pemesanan`
