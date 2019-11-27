@@ -6,8 +6,10 @@ class Pelanggan_model extends CI_Model
     {
         if ($id == 'all') {
             return $this->db->get('ppk_pelanggan')->result_array();
-        } else {
+        } else if (is_numeric($id)) {
             return $this->db->get_where('ppk_pelanggan', ['id_pelanggan' => $id])->row_array();
+        } else {
+            return $this->db->get_where('ppk_pelanggan', ['username' => $id])->row_array();
         }
     }
 

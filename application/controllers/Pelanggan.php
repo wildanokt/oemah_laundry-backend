@@ -43,7 +43,7 @@ class Pelanggan extends REST_Controller
         $data = [
             'nama' => $this->post('nama'),
             'username' => $this->post('username'),
-            'password' => $this->post('password'),
+            'password' => password_hash($this->post('password'), PASSWORD_DEFAULT),
             'telepon' => $this->post('telepon'),
             'alamat' => $this->post('alamat'),
         ];
@@ -59,6 +59,35 @@ class Pelanggan extends REST_Controller
                 'status' => false,
                 'message' => 'Pelanggan gagal didaftarkan',
             ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    //login
+    public function login_post()
+    {
+        $data = [
+            'username' => $this->post('username'),
+            'password' => $this->post('password')
+        ];
+
+        $userData = $this->pelanggan->getPelanggan($data['username']);
+        if ($userData) {
+            if (password_verify($data['password'], $userData['password'])) {
+                $this->response([
+                    'status' => true,
+                    'message' => 'Login berhasil',
+                ], REST_Controller::HTTP_ACCEPTED);
+            } else {
+                $this->response([
+                    'status' => false,
+                    'message' => 'Password salah',
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Pelanggan tidak ditemukan',
+            ], REST_Controller::HTTP_NOT_FOUND);
         }
     }
 
