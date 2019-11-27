@@ -12,7 +12,6 @@ class Pemesanan extends REST_Controller
   {
     parent::__construct();
     $this->load->model('Pemesanan_model', 'pemesanan');
-    header('Access-Control-Allow-Origin: *');
   }
 
   public function index_get()
