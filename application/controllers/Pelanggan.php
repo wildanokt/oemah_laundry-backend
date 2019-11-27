@@ -12,9 +12,15 @@ class Pelanggan extends REST_Controller
     {
         parent::__construct();
         $this->load->model('Pelanggan_model', 'pelanggan');
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: *');
-        header('Content-Type: application/x-www-form-urlencoded; charset=UTF-8');
+        // header('Access-Control-Allow-Origin: *');
+		// header('Access-Control-Allow-Methods: *');		
+		// header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+		// header("Access-Control-Allow-Headers: Origin, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+		// SOLUSI TEKOK INTERNET :D
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+            die();
+		}		
     }
 
     //get pelanggan
@@ -113,12 +119,16 @@ class Pelanggan extends REST_Controller
             'telepon' => $this->put('telepon'),
             'alamat' => $this->put('alamat'),
         ];
-
+		// $this->response([
+		// 	'status' => true,
+		// 	'message' => 'Data pelanggan telah diperbarui',
+		// ], REST_Controller::HTTP_OK);
+		
         if ($this->pelanggan->updatePelanggan($id, $data) > 0) {
             $this->response([
                 'status' => true,
                 'message' => 'Data pelanggan telah diperbarui',
-            ], REST_Controller::HTTP_ACCEPTED);
+            ], REST_Controller::HTTP_OK);
         } else {
             $this->response([
                 'status' => false,
