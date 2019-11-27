@@ -14,7 +14,6 @@ class Pemesanan extends REST_Controller
     public function index_get()
     {
       $id = $this->get('id');
-      //yang ini harus diganti pake session(?)
       $petugas = $this->get('petugas');
       if($id == null){
         $pemesanan = $this->pemesanan->getPemesanan(null, $petugas);
@@ -36,10 +35,18 @@ class Pemesanan extends REST_Controller
     public function index_put()
     {
       $id = $this->put('id');
-      $data = [
-        'status' => $this->put('status')
-      ];
-      if($this->pemesanan->updatePemesanan($data, $id) > 0){
+      if($this->put('id_petugas') != null){
+        $data = [
+          'status' => $this->put('status'),
+          'id_petugas' => $this->put('id_petugas')
+        ];
+      } else {
+        $data = [
+          'status' => $this->put('status')
+        ];
+      }
+      $pemesanan = $this->pemesanan->updatePemesanan($data, $id);
+      if($pemesanan){
         $this->response([
           'status' => true,
           'message' => 'Status berhasil diubah.',

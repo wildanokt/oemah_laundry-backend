@@ -14,13 +14,6 @@ class Rincian extends REST_Controller
     public function index_get()
     {
       $id = $this->get('id');
-      //yang ini harus diganti pake session(?)
-      // $petugas = $this->get('petugas');
-      // if($id == null){
-      //   $pemesanan = $this->pemesanan->getPemesanan(null, $petugas);
-      // } else {
-      //   $pemesanan = $this->pemesanan->getPemesanan($id, $petugas);
-      // }
       $rincian = $this->pemesanan->getRincianPemesanan($id);
       if ($rincian) {
         $this->response([
