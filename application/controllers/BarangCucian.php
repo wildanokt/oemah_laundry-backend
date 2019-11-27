@@ -64,19 +64,19 @@ class BarangCucian extends REST_Controller
         ];
         // cek autentikasi dan cek field kosong
         if ($this->barang->authInsert($auth) && !(in_array(null, $arr, false))) {
-            // if ($this->barang->insertBarang($arr)) {
-            $this->response([
-                'status' => 'Sukses',
-                'message' => 'Data berhasil dimasukkan',
-                'data' => $arr
-            ], REST_Controller::HTTP_OK);
-            // } else {
-            //     $this->response([
-            //         'status' => 'Error',
-            //         'message' => 'Data gagal dimasukkan',
-            //         'data' => $arr
-            //     ], REST_Controller::HTTP_BAD_REQUEST);
-            // }
+            if ($this->barang->insertBarang($arr)) {
+                $this->response([
+                    'status' => 'Sukses',
+                    'message' => 'Data berhasil dimasukkan',
+                    'data' => $arr
+                ], REST_Controller::HTTP_OK);
+            } else {
+                $this->response([
+                    'status' => 'Error',
+                    'message' => 'Data gagal dimasukkan',
+                    'data' => $arr
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
         } else {
             $this->response([
                 'status' => 'Error',

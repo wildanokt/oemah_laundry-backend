@@ -65,19 +65,19 @@ class Petugas extends REST_Controller
         ];
         // cek autentikasi dan cek field kosong
         if ($this->petugas->authInsert($auth) && !(in_array(null, $arr, false) || ($this->post('tipe') != 'Petugas Admin' && $this->post('tipe') != 'Petugas Cuci'))) {
-            // if ($this->petugas->insertPetugas($arr)) {
-            $this->response([
-                'status' => 'Sukses',
-                'message' => 'Data berhasil dimasukkan',
-                'data' => $arr
-            ], REST_Controller::HTTP_OK);
-            // } else {
-            //     $this->response([
-            //         'status' => 'Error',
-            //         'message' => 'Data gagal dimasukkan',
-            //         'data' => $arr
-            //     ], REST_Controller::HTTP_BAD_REQUEST);
-            // }
+            if ($this->petugas->insertPetugas($arr)) {
+                $this->response([
+                    'status' => 'Sukses',
+                    'message' => 'Data berhasil dimasukkan',
+                    'data' => $arr
+                ], REST_Controller::HTTP_OK);
+            } else {
+                $this->response([
+                    'status' => 'Error',
+                    'message' => 'Data gagal dimasukkan',
+                    'data' => $arr
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
         } else {
             $this->response([
                 'status' => 'Error',
