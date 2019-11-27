@@ -28,4 +28,9 @@ class Petugas_model extends CI_Model
     {
         return $this->db->get_where('ppk_petugas', $arr)->row_array();
     }
+
+    public function checkLogin($where)
+    {
+        return $this->db->get_where('ppk_petugas', $where)->row_array();
+    }
 }

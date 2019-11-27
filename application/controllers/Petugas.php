@@ -85,4 +85,34 @@ class Petugas extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
+
+    public function login_post()
+    {
+        $arr = [
+            'username' => $this->post('username'),
+            'password' => $this->post('password')
+        ];
+        if (!in_array(null, $arr, false)) {
+
+            $result = $this->petugas->checkLogin($arr);
+            if ($result) {
+                //success
+                $this->response([
+                    'status' => true,
+                    'data' => $result,
+                ], REST_Controller::HTTP_OK);
+            } else {
+                //fail
+                $this->response([
+                    'status' => false,
+                    'error' => 'Data kosong',
+                ], REST_Controller::HTTP_OK);
+            }
+        } else {
+            $this->response([
+                'status' => false,
+                'data' => 'Data kosong',
+            ], REST_Controller::HTTP_OK);
+        }
+    }
 }
