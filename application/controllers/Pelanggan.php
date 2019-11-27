@@ -13,8 +13,12 @@ class Pelanggan extends REST_Controller
         parent::__construct();
         $this->load->model('Pelanggan_model', 'pelanggan');
         header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: *');
-        header('Content-Type: application/x-www-form-urlencoded; charset=UTF-8');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+            die();
+        }
     }
 
     //get pelanggan
@@ -94,7 +98,7 @@ class Pelanggan extends REST_Controller
         }
     }
 
-    //update
+    //update | error
     public function index_put()
     {
         $id = $this->put('id');
@@ -141,6 +145,24 @@ class Pelanggan extends REST_Controller
                 'status' => false,
                 'message' => 'Pelanggan gagal dihapus',
             ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    //--------------------------------------
+    public function pesanan_get()
+    {
+        $id = $this->get('id');
+        $pesanan = $this->pelanggan->getPesananPelanggan($id);
+        if ($pesanan) {
+            $this->response([
+                'status' => true,
+                'data' => $pesanan,
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Pesanan tidak ditemukan / kosong',
+            ], REST_Controller::HTTP_NOT_FOUND);
         }
     }
 }
