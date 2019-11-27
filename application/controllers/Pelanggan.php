@@ -12,6 +12,9 @@ class Pelanggan extends REST_Controller
     {
         parent::__construct();
         $this->load->model('Pelanggan_model', 'pelanggan');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: *');
+        header('Content-Type: application/x-www-form-urlencoded; charset=UTF-8');
     }
 
     //get pelanggan
@@ -58,7 +61,7 @@ class Pelanggan extends REST_Controller
             $this->response([
                 'status' => false,
                 'message' => 'Pelanggan gagal didaftarkan',
-            ], REST_Controller::HTTP_BAD_REQUEST);
+            ], REST_Controller::HTTP_NOT_ACCEPTABLE);
         }
     }
 
@@ -76,12 +79,12 @@ class Pelanggan extends REST_Controller
                 $this->response([
                     'status' => true,
                     'message' => 'Login berhasil',
-                ], REST_Controller::HTTP_ACCEPTED);
+                ], REST_Controller::HTTP_OK);
             } else {
                 $this->response([
                     'status' => false,
                     'message' => 'Password salah',
-                ], REST_Controller::HTTP_BAD_REQUEST);
+                ], REST_Controller::HTTP_UNAUTHORIZED);
             }
         } else {
             $this->response([
@@ -91,20 +94,27 @@ class Pelanggan extends REST_Controller
         }
     }
 
-    //update event
+    //update
     public function index_put()
     {
         $id = $this->put('id');
+        $user = $this->pelanggan->getPelanggan($id);
+        $password = '';
+        if ($this->put('password') == '') {
+            $password = $user['password'];
+        } else {
+            $password = $this->put('password');
+        }
 
         $data = [
             'nama' => $this->put('nama'),
             'username' => $this->put('username'),
-            'password' => $this->put('password'),
+            'password' => password_hash($password, PASSWORD_DEFAULT),
             'telepon' => $this->put('telepon'),
             'alamat' => $this->put('alamat'),
         ];
 
-        if ($this->event->updateEvent($id, $data) > 0) {
+        if ($this->pelanggan->updatePelanggan($id, $data) > 0) {
             $this->response([
                 'status' => true,
                 'message' => 'Data pelanggan telah diperbarui',
@@ -113,7 +123,7 @@ class Pelanggan extends REST_Controller
             $this->response([
                 'status' => false,
                 'message' => 'Data pelanggan gagal diperbarui',
-            ], REST_Controller::HTTP_BAD_REQUEST);
+            ], REST_Controller::HTTP_NOT_MODIFIED);
         }
     }
 
