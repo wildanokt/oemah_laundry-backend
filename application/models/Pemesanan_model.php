@@ -14,7 +14,7 @@ class Pemesanan_model extends CI_Model
 					->where('pet.nama', $petugas)
 					->or_where('pet.id_petugas', 0)
 				->group_end()
-        ->where('pet.nama', $petugas);
+        ->where('pet.status !=', 'Selesai');
       return $this->db->get()->result_array();
     } else {
       //ini buat detail pemesanan nya
