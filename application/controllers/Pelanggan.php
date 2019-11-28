@@ -169,12 +169,26 @@ class Pelanggan extends REST_Controller
         }
     }
 
+    public function pesanan_post()
+    {
+        $id = $this->post('id');
+        if (true) {
+            $this->response([
+                'status' => true,
+                'message' => 'Pesanan berhasil',
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Pesanan gagal',
+            ], REST_Controller::HTTP_NOT_ACCEPTABLE);
+        }
+    }
+
     public function detail_get()
     {
         $id = $this->get('id');
         $pesanan = $this->pelanggan->getDetailPesananPelanggan($id);
-        var_dump($pesanan);
-        die;
         if ($pesanan) {
             $this->response([
                 'status' => true,

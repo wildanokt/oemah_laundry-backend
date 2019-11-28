@@ -38,6 +38,11 @@ class Pelanggan_model extends CI_Model
 
     public function getDetailPesananPelanggan($id)
     {
-        return $this->db->query('SELECT * FROM ppk_pemesanan JOIN ppk_rincian_pemesanan ON ppk_pemesanan.id_pemesanan = ppk_rincian_pemesanan.id_pemesanan WHERE ppk_pemesanan.id_pemesanan = ' . $id)->result_array();
+        return $this->db->query('SELECT * FROM ppk_pemesanan JOIN ppk_rincian_pemesanan ON ppk_pemesanan.id_pemesanan = ppk_rincian_pemesanan.id_pemesanan JOIN ppk_barang_cucian ON ppk_barang_cucian.id = ppk_rincian_pemesanan.id_barang_cucian WHERE ppk_pemesanan.id_pemesanan =' . $id)->result_array();
+    }
+
+    public function inputPesanan($data)
+    {
+        $this->db->insert('ppk_pemesanan', $data);
     }
 }
