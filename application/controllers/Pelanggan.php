@@ -12,7 +12,7 @@ class Pelanggan extends REST_Controller
     {
         parent::__construct();
         $this->load->model('Pelanggan_model', 'pelanggan');
-        // header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Origin: *');
         // header('Access-Control-Allow-Methods: *');
         // header("Access-Control-Allow-Headers: *");
         // header("Access-Control-Allow-Headers: Origin, Content-Type, Accept, Access-Control-Request-Method, Authorization");
