@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'db-hosting.ub.ac.id',
+	'hostname' => 'db-hosting.ub.ac.id:3306',
 	'username' => 'tcrb',
 	'password' => 'fkvgxgndba',
 	'database' => 'db_tcrb',
