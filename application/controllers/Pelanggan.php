@@ -171,8 +171,60 @@ class Pelanggan extends REST_Controller
 
     public function pesanan_post()
     {
-        $id = $this->post('id');
-        if (true) {
+        $id = $this->post('id_pelanggan');
+
+        if ($this->post('pakaian') != null) {
+            $pakaian = $this->post('pakaian');
+        } else {
+            $pakaian = 0;
+        }
+        if ($this->post('boneka') != null) {
+            $boneka = $this->post('boneka');
+        } else {
+            $boneka = 0;
+        }
+        if ($this->post('selimut') != null) {
+            $selimut = $this->post('selimut');
+        } else {
+            $selimut = 0;
+        }
+        if ($this->post('seprei') != null) {
+            $seprei = $this->post('seprei');
+        } else {
+            $seprei = 0;
+        }
+        $harga = [
+            'pakaian' => $this->pelanggan->getHargaBarang('Pakaian'),
+            'selimut' => $this->pelanggan->getHargaBarang('Selimut'),
+            'boneka' => $this->pelanggan->getHargaBarang('Boneka'),
+            'seprei' => $this->pelanggan->getHargaBarang('Seprei'),
+        ];
+
+        // var_dump($harga);
+        // die;
+
+        $rinci = [
+            'pakaian' => [
+                ''
+            ],
+            'boneka' => $boneka,
+            'selimut' => $selimut,
+            'seprei' => $seprei,
+        ];
+
+        $data = [
+            'id_petugas' => 0,
+            'id_pelanggan' => $id,
+            'total_harga' => (int) ($harga['pakaian']['harga']) * (int) ($pakaian) + (int) ($harga['selimut']['harga']) * (int) ($selimut) + (int) ($harga['boneka']['harga']) * (int) ($boneka) + (int) ($harga['seprei']['harga']) * (int) (int) ($seprei),
+            'status' => 'Belum Diproses',
+            'tanggal_masuk' => $this->post('tanggal_masuk'),
+        ];
+
+        var_dump($rinci);
+        var_dump($data);
+        die;
+
+        if ($this->pelanggan->inputPesanan($data) == true) {
             $this->response([
                 'status' => true,
                 'message' => 'Pesanan berhasil',
