@@ -59,7 +59,7 @@ class Pelanggan_model extends CI_Model
 
     public function inputRinci($data)
     {
-        $this->db->insert('ppk_rincian_pemesanan', $data);
+        $this->db->insert_batch('ppk_rincian_pemesanan', $data);
         return true;
     }
 }

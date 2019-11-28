@@ -200,7 +200,7 @@ class Pelanggan extends REST_Controller
             'seprei' => $this->pelanggan->getHargaBarang('Seprei'),
         ];
 
-        
+
         $data = [
             'id_petugas' => 0,
             'id_pelanggan' => $id,
@@ -209,55 +209,55 @@ class Pelanggan extends REST_Controller
             'tanggal_keluar' => $this->post('tanggal_masuk'),
             'status' => 'Belum Diproses',
         ];
-        // var_dump($data);
-        // die;
-        
+
+        $rinci = [];
         if ($this->pelanggan->inputPesanan($data) == true) {
 
-            $rinci = [];
 
             $pesanan_id = $this->pelanggan->getLatestId()['id_pemesanan'];
 
-            // if ((int) ($pakaian) > 0) {
-            //     $rinci = [
-            //         'id_pemesanan' => $pesanan_id,
-            //         'id_barang_cucian' => 1,
-            //         'jumlah' => $pakaian,
-            //         'harga' => (int) ($harga['pakaian']['harga']) * (int) ($pakaian),
-            //     ];
-            //     $this->pelanggan->inputRinci($rinci);
-            // }
-            // if ((int) ($selimut) > 0) {
-            //     $rinci = [
-            //         'id_pemesanan' => $pesanan_id,
-            //         'id_barang_cucian' => 2,
-            //         'jumlah' => $selimut,
-            //         'harga' => (int) ($harga['selimut']['harga']) * (int) ($selimut),
-            //     ];
-            //     $this->pelanggan->inputRinci($rinci);
-            // }
-            // if ((int) ($boneka) > 0) {
-            //     $rinci = [
-            //         'id_pemesanan' => $pesanan_id,
-            //         'id_barang_cucian' => 3,
-            //         'jumlah' => $boneka,
-            //         'harga' => (int) ($harga['boneka']['harga']) * (int) ($boneka),
-            //     ];
-            //     $this->pelanggan->inputRinci($rinci);
-            // }
-            // if ((int) ($seprei) > 0) {
-            //     $rinci = [
-            //         'id_pemesanan' => $pesanan_id,
-            //         'id_barang_cucian' => 5,
-            //         'jumlah' => $seprei,
-            //         'harga' => (int) ($harga['seprei']['harga']) * (int) ($seprei),
-            //     ];
-            //     $this->pelanggan->inputRinci($rinci);
-            // }
+            if ($pakaian > 0) {
+                $rinci[] = [
+                    'id_pemesanan' => $pesanan_id,
+                    'id_barang_cucian' => 1,
+                    'jumlah' => $pakaian,
+                    'harga' => $harga['pakaian']['harga'] * ($pakaian),
+                ];
+                // $this->pelanggan->inputRinci($rinci);
+            }
+            if ($selimut > 0) {
+                $rinci[] = [
+                    'id_pemesanan' => $pesanan_id,
+                    'id_barang_cucian' => 2,
+                    'jumlah' => $selimut,
+                    'harga' => $harga['selimut']['harga'] * $selimut,
+                ];
+                // $this->pelanggan->inputRinci($rinci);
+            }
+            if (($boneka) > 0) {
+                $rinci[] = [
+                    'id_pemesanan' => $pesanan_id,
+                    'id_barang_cucian' => 3,
+                    'jumlah' => $boneka,
+                    'harga' => ($harga['boneka']['harga']) * ($boneka),
+                ];
+                // $this->pelanggan->inputRinci($rinci);
+            }
+            if (($seprei) > 0) {
+                $rinci[] = [
+                    'id_pemesanan' => $pesanan_id,
+                    'id_barang_cucian' => 5,
+                    'jumlah' => $seprei,
+                    'harga' => ($harga['seprei']['harga']) * ($seprei),
+                ];
+                // $this->pelanggan->inputRinci($rinci);
+            }
+            $this->pelanggan->inputRinci($rinci);
 
             $this->response([
                 'status' => true,
                 'message' => 'Pesanan berhasil',
+                'data' => $rinci
             ], REST_Controller::HTTP_OK);
         } else {
             $this->response([
@@ -265,6 +265,11 @@ class Pelanggan extends REST_Controller
                 'message' => 'Pesanan gagal',
             ], REST_Controller::HTTP_NOT_ACCEPTABLE);
         }
+        $this->response([
+            'status' => true,
+            'message' => 'Pesanan berhasil',
+            'data' => $rinci
+        ], REST_Controller::HTTP_OK);
     }
 
     public function detail_get()
