@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'oemah_laundry',
+	'hostname' => 'db-hosting.ub.ac.id',
+	'username' => 'tcrb',
+	'password' => 'fkvgxgndba',
+	'database' => 'db_tcrb',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

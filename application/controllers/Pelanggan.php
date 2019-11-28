@@ -216,7 +216,7 @@ class Pelanggan extends REST_Controller
 
             $rinci = [];
 
-            $pesanan_id = $this->pelanggan->getLatestId();
+            $pesanan_id = $this->pelanggan->getLatestId()['id_pemesanan'];
 
             // if ((int) ($pakaian) > 0) {
             //     $rinci = [
