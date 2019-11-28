@@ -44,5 +44,11 @@ class Pelanggan_model extends CI_Model
     public function inputPesanan($data)
     {
         $this->db->insert('ppk_pemesanan', $data);
+        return true;
+    }
+
+    public function getHargaBarang($nama)
+    {
+        return $this->db->get_where('ppk_barang_cucian', ['nama' => $nama])->row_array();
     }
 }
