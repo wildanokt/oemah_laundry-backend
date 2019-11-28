@@ -200,9 +200,7 @@ class Pelanggan extends REST_Controller
             'seprei' => $this->pelanggan->getHargaBarang('Seprei'),
         ];
 
-        // var_dump($harga);
-        // die;
-
+        
         $data = [
             'id_petugas' => 0,
             'id_pelanggan' => $id,
@@ -211,22 +209,24 @@ class Pelanggan extends REST_Controller
             'tanggal_keluar' => $this->post('tanggal_masuk'),
             'status' => 'Belum Diproses',
         ];
-
+        // var_dump($data);
+        // die;
+        
         if ($this->pelanggan->inputPesanan($data) == true) {
 
             $rinci = [];
 
             $pesanan_id = $this->pelanggan->getLatestId();
 
-            if ((int) ($pakaian) > 0) {
-                $rinci = [
-                    'id_pemesanan' => $pesanan_id,
-                    'id_barang_cucian' => 1,
-                    'jumlah' => $pakaian,
-                    'harga' => (int) ($harga['pakaian']['harga']) * (int) ($pakaian),
-                ];
-                $this->pelanggan->inputRinci($rinci);
-            }
+            // if ((int) ($pakaian) > 0) {
+            //     $rinci = [
+            //         'id_pemesanan' => $pesanan_id,
+            //         'id_barang_cucian' => 1,
+            //         'jumlah' => $pakaian,
+            //         'harga' => (int) ($harga['pakaian']['harga']) * (int) ($pakaian),
+            //     ];
+            //     $this->pelanggan->inputRinci($rinci);
+            // }
             // if ((int) ($selimut) > 0) {
             //     $rinci = [
             //         'id_pemesanan' => $pesanan_id,
