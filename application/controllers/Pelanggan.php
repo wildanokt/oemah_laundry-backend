@@ -168,4 +168,23 @@ class Pelanggan extends REST_Controller
             ], REST_Controller::HTTP_NOT_FOUND);
         }
     }
+
+    public function detail_get()
+    {
+        $id = $this->get('id');
+        $pesanan = $this->pelanggan->getDetailPesananPelanggan($id);
+        var_dump($pesanan);
+        die;
+        if ($pesanan) {
+            $this->response([
+                'status' => true,
+                'data' => $pesanan,
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Pesanan tidak ditemukan / kosong',
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
 }

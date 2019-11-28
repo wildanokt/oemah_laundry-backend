@@ -31,12 +31,13 @@ class Pelanggan_model extends CI_Model
         return $this->db->affected_rows();
     }
 
-    public function getPesananPelanggan($id = 'detail')
+    public function getPesananPelanggan($id)
     {
-        if (is_numeric($id)) {
-            return $this->db->query('SELECT * FROM ppk_pemesanan JOIN ppk_pelanggan ON ppk_pemesanan.id_pelanggan = ppk_pelanggan.id_pelanggan WHERE ppk_pelanggan.id_pelanggan =' . $id . ' ORDER BY ppk_pemesanan.id_pemesanan DESC')->result_array();
-        } else {
-            return $this->db->query();
-        }
+        return $this->db->query('SELECT * FROM ppk_pemesanan JOIN ppk_pelanggan ON ppk_pemesanan.id_pelanggan = ppk_pelanggan.id_pelanggan WHERE ppk_pelanggan.id_pelanggan =' . $id . ' ORDER BY ppk_pemesanan.id_pemesanan DESC')->result_array();
+    }
+
+    public function getDetailPesananPelanggan($id)
+    {
+        return $this->db->query('SELECT * FROM ppk_pemesanan JOIN ppk_rincian_pemesanan ON ppk_pemesanan.id_pemesanan = ppk_rincian_pemesanan.id_pemesanan WHERE ppk_pemesanan.id_pemesanan = ' . $id)->result_array();
     }
 }
