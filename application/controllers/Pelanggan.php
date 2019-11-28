@@ -203,28 +203,53 @@ class Pelanggan extends REST_Controller
         // var_dump($harga);
         // die;
 
-        $rinci = [
-            'pakaian' => [
-                ''
-            ],
-            'boneka' => $boneka,
-            'selimut' => $selimut,
-            'seprei' => $seprei,
-        ];
-
         $data = [
             'id_petugas' => 0,
             'id_pelanggan' => $id,
             'total_harga' => (int) ($harga['pakaian']['harga']) * (int) ($pakaian) + (int) ($harga['selimut']['harga']) * (int) ($selimut) + (int) ($harga['boneka']['harga']) * (int) ($boneka) + (int) ($harga['seprei']['harga']) * (int) (int) ($seprei),
-            'status' => 'Belum Diproses',
             'tanggal_masuk' => $this->post('tanggal_masuk'),
+            'tanggal_keluar' => $this->post('tanggal_masuk'),
+            'status' => 'Belum Diproses',
         ];
 
-        var_dump($rinci);
-        var_dump($data);
-        die;
-
         if ($this->pelanggan->inputPesanan($data) == true) {
+            $pesanan_id = $this->pelanggan->getLatestId();
+            if ((int) ($pakaian) > 0) {
+                $rinci = [
+                    'id_pemesanan' => $pesanan_id,
+                    'id_barang_cucian' => 1,
+                    'jumlah' => $pakaian,
+                    'harga' => (int) ($harga['pakaian']['harga']) * (int) ($pakaian),
+                ];
+                $this->pelanggan->inputRinci($rinci);
+            }
+            if ((int) ($selimut) > 0) {
+                $rinci = [
+                    'id_pemesanan' => $pesanan_id,
+                    'id_barang_cucian' => 2,
+                    'jumlah' => $selimut,
+                    'harga' => (int) ($harga['selimut']['harga']) * (int) ($selimut),
+                ];
+                $this->pelanggan->inputRinci($rinci);
+            }
+            if ((int) ($boneka) > 0) {
+                $rinci = [
+                    'id_pemesanan' => $pesanan_id,
+                    'id_barang_cucian' => 3,
+                    'jumlah' => $boneka,
+                    'harga' => (int) ($harga['boneka']['harga']) * (int) ($boneka),
+                ];
+                $this->pelanggan->inputRinci($rinci);
+            }
+            if ((int) ($seprei) > 0) {
+                $rinci = [
+                    'id_pemesanan' => $pesanan_id,
+                    'id_barang_cucian' => 5,
+                    'jumlah' => $seprei,
+                    'harga' => (int) ($harga['seprei']['harga']) * (int) ($seprei),
+                ];
+                $this->pelanggan->inputRinci($rinci);
+            }
             $this->response([
                 'status' => true,
                 'message' => 'Pesanan berhasil',

@@ -51,4 +51,14 @@ class Pelanggan_model extends CI_Model
     {
         return $this->db->get_where('ppk_barang_cucian', ['nama' => $nama])->row_array();
     }
+
+    public function getLatestId()
+    {
+        return $this->db->query('SELECT ppk_pemesanan.id_pemesanan FROM `ppk_pemesanan` ORDER BY ppk_pemesanan.id_pemesanan DESC')->row_array();
+    }
+
+    public function inputRinci($data)
+    {
+        $this->db->insert('ppk_rincian_pemesanan', $data);
+    }
 }
