@@ -936,7 +936,7 @@ abstract class REST_Controller extends \CI_Controller
         }
 
         return in_array($method, $this->allowed_http_methods) && method_exists($this, '_parse_' . $method) ? $method : 'get';
-    }
+	}
 
     /**
      * See if the user has provided an API key
