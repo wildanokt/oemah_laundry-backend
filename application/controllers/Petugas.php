@@ -23,17 +23,25 @@ class Petugas extends REST_Controller
 		];
 		$result = $this->petugas->checkLogin($arr);
 		if ($result) {
-			//success
-			$this->response([
-				'status' => true,
-				'data' => $result,
-			], REST_Controller::HTTP_OK);
+			if($result['id_petugas'] > 0){
+				//success
+				$this->response([
+					'status' => true,
+					'data' => $result,
+				], REST_Controller::HTTP_OK);
+			} else {
+				//fail
+				$this->response([
+					'status' => false,
+					'error' => 'Data kosong',
+				], REST_Controller::HTTP_OK);
+			}
 		} else {
 			//fail
 			$this->response([
 				'status' => false,
 				'error' => 'Data kosong',
-			], REST_Controller::HTTP_NOT_FOUND);
+			], REST_Controller::HTTP_OK);
 		}
 	}
 }
