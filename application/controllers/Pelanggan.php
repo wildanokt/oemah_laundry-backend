@@ -213,7 +213,11 @@ class Pelanggan extends REST_Controller
         ];
 
         if ($this->pelanggan->inputPesanan($data) == true) {
+
+            $rinci = [];
+
             $pesanan_id = $this->pelanggan->getLatestId();
+
             if ((int) ($pakaian) > 0) {
                 $rinci = [
                     'id_pemesanan' => $pesanan_id,
@@ -223,33 +227,34 @@ class Pelanggan extends REST_Controller
                 ];
                 $this->pelanggan->inputRinci($rinci);
             }
-            if ((int) ($selimut) > 0) {
-                $rinci = [
-                    'id_pemesanan' => $pesanan_id,
-                    'id_barang_cucian' => 2,
-                    'jumlah' => $selimut,
-                    'harga' => (int) ($harga['selimut']['harga']) * (int) ($selimut),
-                ];
-                $this->pelanggan->inputRinci($rinci);
-            }
-            if ((int) ($boneka) > 0) {
-                $rinci = [
-                    'id_pemesanan' => $pesanan_id,
-                    'id_barang_cucian' => 3,
-                    'jumlah' => $boneka,
-                    'harga' => (int) ($harga['boneka']['harga']) * (int) ($boneka),
-                ];
-                $this->pelanggan->inputRinci($rinci);
-            }
-            if ((int) ($seprei) > 0) {
-                $rinci = [
-                    'id_pemesanan' => $pesanan_id,
-                    'id_barang_cucian' => 5,
-                    'jumlah' => $seprei,
-                    'harga' => (int) ($harga['seprei']['harga']) * (int) ($seprei),
-                ];
-                $this->pelanggan->inputRinci($rinci);
-            }
+            // if ((int) ($selimut) > 0) {
+            //     $rinci = [
+            //         'id_pemesanan' => $pesanan_id,
+            //         'id_barang_cucian' => 2,
+            //         'jumlah' => $selimut,
+            //         'harga' => (int) ($harga['selimut']['harga']) * (int) ($selimut),
+            //     ];
+            //     $this->pelanggan->inputRinci($rinci);
+            // }
+            // if ((int) ($boneka) > 0) {
+            //     $rinci = [
+            //         'id_pemesanan' => $pesanan_id,
+            //         'id_barang_cucian' => 3,
+            //         'jumlah' => $boneka,
+            //         'harga' => (int) ($harga['boneka']['harga']) * (int) ($boneka),
+            //     ];
+            //     $this->pelanggan->inputRinci($rinci);
+            // }
+            // if ((int) ($seprei) > 0) {
+            //     $rinci = [
+            //         'id_pemesanan' => $pesanan_id,
+            //         'id_barang_cucian' => 5,
+            //         'jumlah' => $seprei,
+            //         'harga' => (int) ($harga['seprei']['harga']) * (int) ($seprei),
+            //     ];
+            //     $this->pelanggan->inputRinci($rinci);
+            // }
+
             $this->response([
                 'status' => true,
                 'message' => 'Pesanan berhasil',
