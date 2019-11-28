@@ -6,12 +6,12 @@ require APPPATH . '/libraries/REST_Controller.php';
 
 use Restserver\Libraries\REST_Controller;
 
-class Petugas extends REST_Controller
+class BarangCucian extends REST_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Petugas_model', 'petugas');
+        $this->load->model('BarangCucian_model', 'barang');
         header('Access-Control-Allow-Origin: *');
     }
 
@@ -19,12 +19,12 @@ class Petugas extends REST_Controller
     {
         $id = $this->get('id');
         if ($id == null) {
-            $petugas = $this->petugas->getPetugas();
-            if ($petugas) {
+            $barang = $this->barang->getBarang();
+            if ($barang) {
                 //success
                 $this->response([
                     'status' => true,
-                    'data' => $petugas,
+                    'data' => $barang,
                 ], REST_Controller::HTTP_OK);
             } else {
                 //fail
@@ -34,12 +34,12 @@ class Petugas extends REST_Controller
                 ], REST_Controller::HTTP_NOT_FOUND);
             }
         } else {
-            $petugas = $this->petugas->getPetugasbyID($id);
-            if ($petugas) {
+            $barang = $this->barang->getBarangbyID($id);
+            if ($barang) {
                 //success
                 $this->response([
                     'status' => true,
-                    'data' => $petugas,
+                    'data' => $barang,
                 ], REST_Controller::HTTP_OK);
             } else {
                 //fail
@@ -58,14 +58,13 @@ class Petugas extends REST_Controller
             'password' => $this->post('passwordAdmin')
         ];
         $arr = [
-            'nama' => $this->post('nama'),
-            'username' => $this->post('username'),
-            'password' => $this->post('password'),
-            'tipe' => $this->post('tipe')
+            'nama' => $this->post('barang'),
+            'harga' => $this->post('harga'),
+            'lama' => $this->post('lama')
         ];
         // cek autentikasi dan cek field kosong
-        if ($this->petugas->authInsert($auth) && !(in_array(null, $arr, false) || ($this->post('tipe') != 'Petugas Admin' && $this->post('tipe') != 'Petugas Cuci'))) {
-            if ($this->petugas->insertPetugas($arr)) {
+        if ($this->barang->authInsert($auth) && !(in_array(null, $arr, false))) {
+            if ($this->barang->insertBarang($arr)) {
                 $this->response([
                     'status' => 'Sukses',
                     'message' => 'Data berhasil dimasukkan',
@@ -83,36 +82,6 @@ class Petugas extends REST_Controller
                 'status' => 'Error',
                 'message' => 'Illegal akses'
             ], REST_Controller::HTTP_BAD_REQUEST);
-        }
-    }
-
-    public function login_post()
-    {
-        $arr = [
-            'username' => $this->post('username'),
-            'password' => $this->post('password')
-        ];
-        if (!in_array(null, $arr, false)) {
-
-            $result = $this->petugas->checkLogin($arr);
-            if ($result) {
-                //success
-                $this->response([
-                    'status' => true,
-                    'data' => $result,
-                ], REST_Controller::HTTP_OK);
-            } else {
-                //fail
-                $this->response([
-                    'status' => false,
-                    'error' => 'Data kosong',
-                ], REST_Controller::HTTP_OK);
-            }
-        } else {
-            $this->response([
-                'status' => false,
-                'data' => 'Data kosong',
-            ], REST_Controller::HTTP_OK);
         }
     }
 }
