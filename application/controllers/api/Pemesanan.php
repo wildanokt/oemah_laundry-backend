@@ -9,7 +9,15 @@ class Pemesanan extends REST_Controller
     {
       parent::__construct();
       $this->load->model('Pemesanan_model', 'pemesanan');
-      header('Access-Control-Allow-Origin: *');
+			header('Access-Control-Allow-Origin: *');
+			header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+			header("Access-Control-Allow-Headers: *");
+			header("Access-Control-Allow-Headers: Origin, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+			// SOLUSI TEKOK INTERNET :D
+			$method = $_SERVER['REQUEST_METHOD'];
+			if ($method == "OPTIONS") {
+				die();
+			}
     }
     public function index_get()
     {
