@@ -49,24 +49,33 @@ class Pelanggan extends REST_Controller
 	//register pelanggan
 	public function index_post()
 	{
+		$username = $this->post('username');
+
+		if ($this->pelanggan->isUsernameUnique($username) == false) {
+			$this->response([
+				'status' => false,
+				'message' => 'Username telah digunakan oleh orang lain',
+			], REST_Controller::HTTP_OK);
+		}
 		$data = [
 			'nama' => $this->post('nama'),
-			'username' => $this->post('username'),
+			'username' => $username,
 			'password' => password_hash($this->post('password'), PASSWORD_DEFAULT),
 			'telepon' => $this->post('telepon'),
 			'alamat' => $this->post('alamat'),
 		];
 
-
 		if ($this->pelanggan->setPelanggan($data) > 0) {
+			$pelanggan = $this->pelanggan->getPelangganByUsername($username);
 			$this->response([
 				'status' => true,
 				'message' => 'Pelanggan berhasil didaftarkan',
+				'data' => $pelanggan
 			], REST_Controller::HTTP_CREATED);
 		} else {
 			$this->response([
 				'status' => false,
-				'message' => 'Pelanggan gagal didaftarkan',
+				'message' => 'Pelanggan gagal didaftarkan'
 			], REST_Controller::HTTP_NOT_ACCEPTABLE);
 		}
 	}
@@ -100,10 +109,9 @@ class Pelanggan extends REST_Controller
 		}
 	}
 
-	//update | error
+	//update 
 	public function index_put()
 	{
-		header('Access-Control-Allow-Origin: *');
 		$id = $this->put('id');
 		$user = $this->pelanggan->getPelanggan($id);
 		$password = '';
@@ -113,6 +121,15 @@ class Pelanggan extends REST_Controller
 			$password = $this->put('password');
 		}
 
+		$username = $this->put('username');
+		if ($user['username'] != $username) {
+			if ($this->pelanggan->isUsernameUnique($username, $user['id_pelanggan']) == false) {
+				$this->response([
+					'status' => false,
+					'message' => 'Username telah digunakan oleh orang lain',
+				], REST_Controller::HTTP_OK);
+			}
+		}
 		$data = [
 			'nama' => $this->put('nama'),
 			'username' => $this->put('username'),

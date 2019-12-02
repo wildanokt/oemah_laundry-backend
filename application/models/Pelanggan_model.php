@@ -13,6 +13,11 @@ class Pelanggan_model extends CI_Model
 		}
 	}
 
+	public function getPelangganByUsername($username)
+	{
+		return $this->db->get_where('ppk_pelanggan', ['username' => $username])->row_array();
+	}
+
 	public function setPelanggan($data)
 	{
 		$this->db->insert('ppk_pelanggan', $data);
@@ -33,12 +38,12 @@ class Pelanggan_model extends CI_Model
 
 	public function getPesananPelanggan($id)
 	{
-		return $this->db->query('SELECT * FROM ppk_pemesanan JOIN ppk_pelanggan ON ppk_pemesanan.id_pelanggan = ppk_pelanggan.id_pelanggan WHERE ppk_pelanggan.id_pelanggan =' . $id . ' ORDER BY ppk_pemesanan.id_pemesanan DESC')->result_array();
+		return $this->db->query('SELECT * FROM ppk_pemesanan JOIN ppk_pelanggan ON ppk_pemesanan.id_pelanggan = ppk_pelanggan.id_pelanggan WHERE ppk_pemesanan.id_pelanggan =' . $id . ' ORDER BY ppk_pemesanan.id_pemesanan DESC')->result_array();
 	}
 
 	public function getDetailPesananPelanggan($id)
 	{
-		return $this->db->query('SELECT * FROM ppk_pemesanan JOIN ppk_rincian_pemesanan ON ppk_pemesanan.id_pemesanan = ppk_rincian_pemesanan.id_pemesanan JOIN ppk_barang_cucian ON ppk_barang_cucian.id = ppk_rincian_pemesanan.id_barang_cucian WHERE ppk_pemesanan.id_pemesanan =' . $id)->result_array();
+		return $this->db->query('SELECT pem.tanggal_masuk, pem.tanggal_keluar, pem.status, bar.nama, rin.jumlah, rin.harga, pem.total_harga, bar.harga as harga_barang FROM ppk_pemesanan pem JOIN ppk_rincian_pemesanan rin ON pem.id_pemesanan = rin.id_pemesanan JOIN ppk_barang_cucian bar ON bar.id = rin.id_barang_cucian WHERE pem.id_pemesanan =' . $id)->result_array();
 	}
 
 	public function inputPesanan($data)
@@ -61,5 +66,18 @@ class Pelanggan_model extends CI_Model
 	{
 		$this->db->insert_batch('ppk_rincian_pemesanan', $data);
 		return $this->db->affected_rows() > 0 ? true : false;
+	}
+
+	public function isUsernameUnique($username, $id = null)
+	{
+		if ($id == null) {
+			return $this->db->where('username', $username)
+				->get('ppk_pelanggan')->row_array() == null ? true : false;
+		} else {
+
+			return $this->db->where('username', $username)
+				->where('id_pelanggan != ', $id)
+				->get('ppk_pelanggan')->row_array() == null ? true : false;
+		}
 	}
 }
