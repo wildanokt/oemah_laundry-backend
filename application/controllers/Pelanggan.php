@@ -60,7 +60,7 @@ class Pelanggan extends REST_Controller
 		$data = [
 			'nama' => $this->post('nama'),
 			'username' => $username,
-			'password' => password_hash($this->post('password'), PASSWORD_DEFAULT),
+			'password' => sha1($this->post('password')),
 			'telepon' => $this->post('telepon'),
 			'alamat' => $this->post('alamat'),
 		];
@@ -83,14 +83,14 @@ class Pelanggan extends REST_Controller
 	//login
 	public function login_post()
 	{
+    $password = sha1($this->post('password'));
 		$data = [
-			'username' => $this->post('username'),
-			'password' => $this->post('password')
+			'username' => $this->post('username')
 		];
 
 		$userData = $this->pelanggan->getPelanggan($data['username']);
 		if ($userData) {
-			if (password_verify($data['password'], $userData['password'])) {
+			if ($userData['password'] == $password) {
 				$this->response([
 					'status' => true,
 					'message' => 'Login berhasil',
@@ -133,7 +133,7 @@ class Pelanggan extends REST_Controller
 		$data = [
 			'nama' => $this->put('nama'),
 			'username' => $this->put('username'),
-			'password' => password_hash($password, PASSWORD_DEFAULT),
+			'password' => sha1($password),
 			'telepon' => $this->put('telepon'),
 			'alamat' => $this->put('alamat'),
 		];
