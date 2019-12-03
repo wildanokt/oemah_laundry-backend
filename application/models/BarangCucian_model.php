@@ -22,4 +22,17 @@ class BarangCucian_model extends CI_Model
     {
         return $this->db->get_where('ppk_petugas', $arr)->row_array();
     }
+
+    public function isNameUnique($name, $id = null)
+    {
+        if ($id == null) {
+            return $this->db->where('nama', $name)
+                ->get('ppk_barang_cucian')->row_array() == null ? true : false;
+        } else {
+
+            return $this->db->where('nama', $name)
+                ->where('id != ', $id)
+                ->get('ppk_barang_cucian')->row_array() == null ? true : false;
+        }
+    }
 }

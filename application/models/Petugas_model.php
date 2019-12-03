@@ -33,4 +33,18 @@ class Petugas_model extends CI_Model
     {
         return $this->db->get_where('ppk_petugas', $where)->row_array();
     }
+
+    public function isUsernameUnique($username, $id = null)
+    {
+        if ($id == null) {
+            return $this->db->where('username', $username)
+                ->where('id_petugas > ', '0')
+                ->get('ppk_petugas')->row_array() == null ? true : false;
+        } else {
+            return $this->db->where('username', $username)
+                ->where('id_petugas > ', '0')
+                ->where('id_petugas != ', $id)
+                ->get('ppk_petugas')->row_array() == null ? true : false;
+        }
+    }
 }

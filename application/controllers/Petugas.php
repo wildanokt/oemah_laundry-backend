@@ -63,11 +63,23 @@ class Petugas extends REST_Controller
             'password' => $this->post('password'),
             'tipe' => $this->post('tipe')
         ];
+        // $this->response([
+        //     'status' => true,
+        //     'message' => 'Username telah digunakan oleh orang lain',
+        //     'data' => $arr['username']
+        // ], REST_Controller::HTTP_OK);
         // cek autentikasi dan cek field kosong
         if ($this->petugas->authInsert($auth) && !(in_array(null, $arr, false) || ($this->post('tipe') != 'Petugas Admin' && $this->post('tipe') != 'Petugas Cuci'))) {
+            if ($this->petugas->isUsernameUnique($arr['username']) == false) {
+                $this->response([
+                    'status' => false,
+                    'message' => 'Username telah digunakan oleh orang lain',
+                    'data' => $arr
+                ], REST_Controller::HTTP_OK);
+            }
             if ($this->petugas->insertPetugas($arr)) {
                 $this->response([
-                    'status' => 'Sukses',
+                    'status' => true,
                     'message' => 'Data berhasil dimasukkan',
                     'data' => $arr
                 ], REST_Controller::HTTP_OK);

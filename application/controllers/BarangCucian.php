@@ -58,28 +58,36 @@ class BarangCucian extends REST_Controller
             'password' => $this->post('passwordAdmin')
         ];
         $arr = [
-            'nama' => $this->post('barang'),
+            'nama' => ucwords($this->post('barang')),
             'harga' => $this->post('harga'),
             'lama' => $this->post('lama')
         ];
         // cek autentikasi dan cek field kosong
         if ($this->barang->authInsert($auth) && !(in_array(null, $arr, false))) {
+            if ($this->barang->isNameUnique($arr['nama']) == false) {
+                $this->response([
+                    'status' => false,
+                    'message' => 'Nama barang sudah ada. Pilih nama yang lain',
+                    'data' => $arr
+                ], REST_Controller::HTTP_OK);
+            }
+
             if ($this->barang->insertBarang($arr)) {
                 $this->response([
-                    'status' => 'Sukses',
+                    'status' => true,
                     'message' => 'Data berhasil dimasukkan',
                     'data' => $arr
                 ], REST_Controller::HTTP_OK);
             } else {
                 $this->response([
-                    'status' => 'Error',
+                    'status' => false,
                     'message' => 'Data gagal dimasukkan',
                     'data' => $arr
                 ], REST_Controller::HTTP_BAD_REQUEST);
             }
         } else {
             $this->response([
-                'status' => 'Error',
+                'status' => false,
                 'message' => 'Illegal akses'
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
